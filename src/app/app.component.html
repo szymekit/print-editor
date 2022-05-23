@@ -1,0 +1,126 @@
+<!--<div [lyDisplay]="'flex'">
+  <button ly-button color="primary" (click)="_fileInput.click()">
+    <ly-icon>image</ly-icon>
+    <span>Select File</span>
+  </button>
+  <span [lyFlex]="1"></span>
+  &lt;!&ndash; Hidden input &ndash;&gt;
+  <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
+  <button raised ly-button bg="accent" *ngIf="croppedImage">Upload</button>
+</div>
+
+<div *ngIf="ready">
+  <button (click)="cropper.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
+  <button (click)="cropper.zoomOut()" ly-button appearance="icon"><ly-icon>zoom_out</ly-icon></button>
+  <button (click)="cropper.center()" ly-button appearance="icon"><ly-icon>filter_center_focus</ly-icon></button>
+  <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
+  <button (click)="cropper.fit()" ly-button>Fit</button>
+  <button (click)="cropper.fitToScreen()" ly-button>Fit to screen</button>
+  <button (click)="cropper.clean()" ly-button>Clean</button>
+</div>
+
+<div *ngIf="ready" [className]="classes.sliderContainer">
+  <ly-slider
+    [thumbVisible]="false"
+    [marks]="true"
+    [min]="minScale"
+    [max]="maxScale"
+    [(ngModel)]="scale"
+    (input)="scale = $event?.value"
+    [step]="0.000001"
+  >
+    <ly-mark [value]="minScale" (click)="scale=minScale">Min</ly-mark>
+    <ly-mark [value]="maxScale" (click)="scale=maxScale">Max</ly-mark>
+  </ly-slider>
+</div>
+
+<button ly-button *ngIf="ready" color="accent" (click)="cropper.crop()">
+  <ly-icon>crop</ly-icon>crop
+</button>-->
+
+<div>
+  <img [lyMaxWidth]="1" *ngIf="croppedImage" [src]="croppedImage">
+</div>
+
+<div class="poster">
+  <div class="add-photo-container">
+    <div class="add-photo" *ngIf="!ready">
+      <p class="title"><strong>Add photo</strong></p>
+      <div class="select-area">
+        <p class="mb-1"><strong>Select image file</strong></p>
+        <div class="area">
+          <p class="orange-color mt-0 pointer" (click)="_fileInput.click()">Browse</p>
+          <small>Possible types: jpeg, jpg, png, heif</small><br/>
+          <small>Maximum weight: 10MB</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-photo-config" *ngIf="ready">
+      <p><b>Orientacja</b></p>
+      <div>
+        <button class="orient-btn" [class.selected]="selectedPortrait" (click)="!selectedPortrait ? cropper.rotate(-90) : false; selectedPortrait = true;">Portrait</button>
+        <button class="orient-btn" [class.selected]="!selectedPortrait" (click)="selectedPortrait ? cropper.rotate(-270) : false; selectedPortrait = false;">Landscape</button>
+      </div>
+      <p><b>Quality</b></p>
+      <div>
+        <button class="orient-btn" [class.selected]="selectedPortrait" (click)="!selectedPortrait ? cropper.rotate(-90) : false; selectedPortrait = true;">Portrait</button>
+        <button class="orient-btn" [class.selected]="!selectedPortrait" (click)="selectedPortrait ? cropper.rotate(-270) : false; selectedPortrait = false;">Landscape</button>
+      </div>
+      <p><b>Photo zoom</b></p>
+      <div>
+        <div *ngIf="ready" [className]="classes.sliderContainer">
+          <ly-slider
+            [thumbVisible]="false"
+            [marks]="true"
+            [color]="'#b3b2b2'"
+            [min]="minScale"
+            [max]="maxScale"
+            [(ngModel)]="scale"
+            (input)="scale = $event?.value"
+            [step]="0.000001"
+          >
+            <ly-mark [value]="minScale" (click)="scale=minScale">Min</ly-mark>
+            <ly-mark [value]="maxScale" (click)="scale=maxScale">Max</ly-mark>
+          </ly-slider>
+        </div>
+      </div>
+      <p><b>Filters:</b></p>
+      <div>
+        <button class="filter-btn" (click)="filterClass = 'brightness'"><strong>Brightness</strong></button>
+        <button class="filter-btn" (click)="filterClass = 'grayscale'"><strong>Grayscale</strong></button>
+        <button class="filter-btn" (click)="filterClass = 'hue'"><strong>Hue</strong></button>
+        <button class="filter-btn" (click)="filterClass = 'sepia'"><strong>Sepia</strong></button>
+        <button class="filter-btn" (click)="filterClass = 'saturate'"><strong>Saturate</strong></button>
+        <button class="filter-btn" (click)="filterClass = 'invert'"><strong>Invert</strong></button>
+      </div>
+    </div>
+
+    <div class="drag-drop-area">
+      <div class="border-area">
+        <ly-img-cropper
+          [class]="filterClass"
+          [config]="myConfig"
+          [(scale)]="scale"
+          (minScale)="minScale = $event"
+          (maxScale)="maxScale = $event"
+          (ready)="ready = true"
+          (cleaned)="ready = false"
+          (cropped)="onCropped($event)"
+          (loaded)="onLoaded($event)"
+          (error)="onError($event)"
+        >
+        </ly-img-cropper>
+        <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
+        <div class="upload-div" *ngIf="!ready">
+          <p class="mt-0"><strong>Drag and drop photo here</strong></p>
+          <p>OR</p>
+          <button class="orange-btn" (click)="_fileInput.click()">Browse</button>
+          <br/>
+          <small>Possible types: jpeg, jpg, png, heif</small><br/>
+          <small>Maximum weight: 10MB</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
