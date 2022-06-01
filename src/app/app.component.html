@@ -38,10 +38,6 @@
   <ly-icon>crop</ly-icon>crop
 </button>-->
 
-<div>
-  <img [lyMaxWidth]="1" *ngIf="croppedImage" [src]="croppedImage">
-</div>
-
 <div class="poster">
   <div class="add-photo-container">
     <div class="add-photo" *ngIf="!ready">
@@ -57,6 +53,7 @@
     </div>
 
     <div class="add-photo-config" *ngIf="ready">
+      <p class="crop" (click)="cropper.crop()"><b>Crop</b></p>
       <p><b>Orientacja</b></p>
       <div>
         <button class="orient-btn" [class.selected]="selectedPortrait" (click)="!selectedPortrait ? cropper.rotate(-90) : false; selectedPortrait = true;">Portrait</button>
@@ -125,6 +122,7 @@
   </div>
 </div>
 
+<p (click)="applyAndDraw()">Apply filter and drow</p>
 
 <img [src]="croppedImage" id="dataimage" />
 <canvas id="image" width="1120" height="1600"></canvas>

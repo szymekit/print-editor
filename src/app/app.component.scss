@@ -2,6 +2,13 @@
   padding: 0 15%;
   padding-top: 80px;
 
+  .crop {
+    background: #FDE3DA;
+    border: 1px solid #F77147;
+    color: white;
+    padding: 10px 20px;
+  }
+
   .add-photo-container {
     display: flex;
     justify-content: space-between;
