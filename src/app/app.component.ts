@@ -85,6 +85,23 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
+  applyAndDraw(): void {
+    this.canvas = document.getElementById('image') as any;
+    const ctx = this.canvas.getContext('2d');
+    ctx.filter = 'sepia(50%)';
+    const img = document.getElementById('dataimage');
+    ctx.drawImage(img, 0, 0,  this.canvas.width,  this.canvas.height);
+  }
+
+  addSepia(): void {
+    const ctx = this.canvas.getContext('2d');
+    ctx.sepia(1);
+  }
+
+  download(): void {
+    document.location.href = this.canvas.toDataURL('image/jpeg');
+  }
+
   onCropped(e: ImgCropperEvent) {
     this.croppedImage = e.dataURL;
     console.log('cropped img: ', e);
